@@ -132,12 +132,14 @@ local Window = Rayfield:CreateWindow({
 
 -- Simply notify the user through rayfield
 
-local function notify(title, content)
+local function notify(title, content, icon)
+    if icon == nil then icon = 4483362458 end
+
     Rayfield:Notify({
         Title = title,
         Content = content,
         Duration = 6.5,
-        Image = 4483362458,
+        Image = icon,
     })
 end
 
@@ -185,7 +187,7 @@ end
 
 local function setup_NIE()
     if getgenv().BETA_NIE_INSTANCE then -- checks if NIE is already setup
-        notify("NIE setup successful", "NIE setup has been successful")
+        notify("NIE setup successful", "NIE setup has been successful", nil)
         return
     end
 
@@ -214,7 +216,7 @@ local function setup_NIE()
                 rep_storage.Teleport1.Parent = workspace.Lobby
                 rep_storage.Teleport2.Parent = workspace.Lobby
                 inst:FireServer(current_glove)
-                notify("NIE setup successful", "NIE setup has been successful")
+                notify("NIE setup successful", "NIE setup has been successful", nil)
                 return
             end
         end
@@ -224,7 +226,7 @@ local function setup_NIE()
 
     bool_use_clickdetector = true
 
-    notify("NIE setup failure", "Features using NIE will not work")
+    notify("NIE setup failure", "Features using NIE will not work", nil)
 end
 
 -- Main equip function, if fails to equip, then returns
@@ -243,7 +245,7 @@ local function equip(glove)
     elseif bool_use_clickdetector then
         fireclickdetector(workspace.Lobby:FindFirstChild(glove).ClickDetector)
     else
-        notify("NIE not setup", "Features using NIE won\'t work")
+        notify("NIE not setup", "Features using NIE won\'t work", nil)
     end
 end
 
@@ -254,7 +256,7 @@ run(function()
         run(setup_NIE)
         return
     end
-    notify("NIE setup halted", "NIE setup will be halted until you are in the lobby")
+    notify("NIE setup halted", "NIE setup will be halted until you are in the lobby", nil)
     workspace.ChildAdded:Connect(function(child)
         if current_instance_number ~= getgenv().BETA_INSTANCE_NUMBER then return end
         task.wait()
@@ -515,19 +517,19 @@ local molest = Target:CreateButton({
         local in_arena = localplayer.Character.isInArena.Value
 
         if in_arena then
-            notify("Not in lobby", "Molest doesn\'t work in arena")
+            notify("Not in lobby", "Molest doesn\'t work in arena", nil)
             return
         end
 
         local _unused, target_name = string.match(playerlist_dropdown.CurrentOption[1], "(.+)%s%((.+)%)")
 
         if not game:GetService("Players")[target_name].Character:WaitForChild("isInArena").Value then
-            notify("Target not in lobby", "Molest doesn\'t work when target is in lobby")
+            notify("Target not in lobby", "Molest doesn\'t work when target is in lobby", nil)
             return
         end
 
         if not game:GetService("Players")[target_name].Character:FindFirstChild("Humanoid") then
-            notify("Target has no humanoid", "Likely due to using diamond or megarock")
+            notify("Target has no humanoid", "Likely due to using diamond or megarock", nil)
             return
         end
 
@@ -548,13 +550,13 @@ local molest = Target:CreateButton({
         task.wait(3.5) -- Wait until animation finishes
 
         if not game:GetService("Players")[target_name].Character.isInArena.Value or game:GetService("Players")[target_name].Character:WaitForChild("Humanoid").Health == 0 then
-            notify("Target died", "Target died before rob animation finished")
+            notify("Target died", "Target died before rob animation finished", nil)
             localplayer.Reset:FireServer()
             return
         end
 
         if not game:GetService("Players")[target_name].Character:FindFirstChild("Humanoid") then
-            notify("Target has no humanoid", "Likely due to using diamond or megarock")
+            notify("Target has no humanoid", "Likely due to using diamond or megarock", nil)
             return
         end
 
@@ -591,19 +593,19 @@ local grab_barzil = Target:CreateButton({
         local in_arena = localplayer.Character.isInArena.Value
 
         if in_arena then
-            notify("Not in lobby", "Grab barzil doesn\'t work in arena")
+            notify("Not in lobby", "Grab barzil doesn\'t work in arena", nil)
             return
         end
 
         local _unused, target_name = string.match(playerlist_dropdown.CurrentOption[1], "(.+)%s%((.+)%)")
 
         if not game:GetService("Players")[target_name].Character:WaitForChild("isInArena").Value then
-            notify("Target not in lobby", "Grab barzil doesn\'t work when target is in lobby")
+            notify("Target not in lobby", "Grab barzil doesn\'t work when target is in lobby", nil)
             return
         end
 
         if not game:GetService("Players")[target_name].Character:FindFirstChild("Humanoid") then
-            notify("Target has no humanoid", "Likely due to using diamond or megarock")
+            notify("Target has no humanoid", "Likely due to using diamond or megarock", nil)
             return
         end
 
@@ -626,13 +628,13 @@ local grab_barzil = Target:CreateButton({
         if not localplayer:WaitForChild("leaderstats"):WaitForChild("Glove").Value == "Grab" then return end -- If equip failed then return
 
         if not game:GetService("Players")[target_name].Character.isInArena.Value or game:GetService("Players")[target_name].Character:WaitForChild("Humanoid").Health == 0 then
-            notify("Target died", "Target died before rob animation finished")
+            notify("Target died", "Target died before rob animation finished", nil)
             localplayer.Reset:FireServer()
             return
         end
 
         if not game:GetService("Players")[target_name].Character:FindFirstChild("Humanoid") then
-            notify("Target has no humanoid", "Likely due to using diamond or megarock")
+            notify("Target has no humanoid", "Likely due to using diamond or megarock", nil)
             return
         end
 
@@ -905,19 +907,19 @@ local bring_location_dropdown = Helper:CreateDropdown({
         local in_arena = localplayer.Character.isInArena.Value
 
         if in_arena then
-            notify("Not in lobby", "Grab doesn\'t work in arena")
+            notify("Not in lobby", "Grab doesn\'t work in arena", nil)
             return
         end
 
         local target_name = target_help
 
         if not game:GetService("Players")[target_name].Character:WaitForChild("isInArena").Value then
-            notify("Target not in lobby", "Grab doesn\'t work when target is in lobby")
+            notify("Target not in lobby", "Grab doesn\'t work when target is in lobby", nil)
             return
         end
 
         if not game:GetService("Players")[target_name].Character:FindFirstChild("Humanoid") then
-            notify("Target has no humanoid", "Likely due to using diamond or megarock")
+            notify("Target has no humanoid", "Likely due to using diamond or megarock", nil)
             return
         end
 
@@ -940,13 +942,13 @@ local bring_location_dropdown = Helper:CreateDropdown({
         if not localplayer:WaitForChild("leaderstats"):WaitForChild("Glove").Value == "Grab" then return end -- If equip failed then return
 
         if not game:GetService("Players")[target_name].Character.isInArena.Value or game:GetService("Players")[target_name].Character:WaitForChild("Humanoid").Health == 0 then
-            notify("Target died", "Target died before rob animation finished")
+            notify("Target died", "Target died before rob animation finished", nil)
             localplayer.Reset:FireServer()
             return
         end
 
         if not game:GetService("Players")[target_name].Character:FindFirstChild("Humanoid") then
-            notify("Target has no humanoid", "Likely due to using diamond or megarock")
+            notify("Target has no humanoid", "Likely due to using diamond or megarock", nil)
             return
         end
 
@@ -998,12 +1000,10 @@ elseif game.PlaceId == 126509999114328 then -- If game is 99 nights in the forst
 
 -- Locals
 
-local bool_kill_aura = false
-local bool_auto_eat = false
-local bool_loop_ws = false
-local bool_instantpp = false
 local campfire = workspace.Map.Campground.MainFire
 local hitreg_id = "1_" .. math.abs(localplayer.UserId)
+
+localplayer.Character.Humanoid.WalkSpeed = 16
 
 -- Litification
 
@@ -1036,14 +1036,17 @@ local Items = Window:CreateTab("Items")
 
 local Movement = Window:CreateTab("Movement")
 
+local Hooks = Window:CreateTab("Hooks")
+
 -- Create elements in tabs
 
 -- Main
 
 -- Converts seconds to a readable minute : second format
 
-local function sec_to_min(seconds)
-    if seconds == 0 then return "Transitioning..." end
+local function sec_to_min(seconds, say_trans)
+    if seconds == 0 and say_trans then return "Transitioning..." end
+    if seconds == 0 and not say_trans then return "0:00" end
 
     local sec
 
@@ -1070,17 +1073,40 @@ end
 
 Main:CreateDivider()
 
-local main_label_seconds = Main:CreateLabel(get_first_string(workspace:GetAttribute("State")) .. sec_to_min(workspace:GetAttribute("SecondsLeft")), return_icon(workspace:GetAttribute("State")), Color3.fromRGB(0, 0, 0), false)
+local main_label_seconds = Main:CreateLabel(get_first_string(workspace:GetAttribute("State")) .. sec_to_min(workspace:GetAttribute("SecondsLeft"), true), return_icon(workspace:GetAttribute("State")), Color3.fromRGB(0, 0, 0), false)
 
 local main_label_fire = Main:CreateLabel("Campfire fuel: " .. math.floor(campfire:GetAttribute("FuelRemaining") / campfire:GetAttribute("FuelTarget") * 100) .. "%", "flame-kindling", Color3.fromRGB(0, 0, 0), false)
 
-local items_label_seconds = Items:CreateLabel(get_first_string(workspace:GetAttribute("State")) .. sec_to_min(workspace:GetAttribute("SecondsLeft")), return_icon(workspace:GetAttribute("State")), Color3.fromRGB(0, 0, 0), false)
+Items:CreateDivider()
+
+local items_label_seconds = Items:CreateLabel(get_first_string(workspace:GetAttribute("State")) .. sec_to_min(workspace:GetAttribute("SecondsLeft"), true), return_icon(workspace:GetAttribute("State")), Color3.fromRGB(0, 0, 0), false)
 
 local items_label_fire = Items:CreateLabel("Campfire fuel: " .. math.floor(campfire:GetAttribute("FuelRemaining") / campfire:GetAttribute("FuelTarget") * 100) .. "%", "flame-kindling", Color3.fromRGB(0, 0, 0), false)
 
-local movement_label_seconds = Movement:CreateLabel(get_first_string(workspace:GetAttribute("State")) .. sec_to_min(workspace:GetAttribute("SecondsLeft")), return_icon(workspace:GetAttribute("State")), Color3.fromRGB(0, 0, 0), false)
+Movement:CreateDivider()
+
+local movement_label_seconds = Movement:CreateLabel(get_first_string(workspace:GetAttribute("State")) .. sec_to_min(workspace:GetAttribute("SecondsLeft"), true), return_icon(workspace:GetAttribute("State")), Color3.fromRGB(0, 0, 0), false)
 
 local movement_label_fire = Movement:CreateLabel("Campfire fuel: " .. math.floor(campfire:GetAttribute("FuelRemaining") / campfire:GetAttribute("FuelTarget") * 100) .. "%", "flame-kindling", Color3.fromRGB(0, 0, 0), false)
+
+Hooks:CreateDivider()
+
+local hooks_label_seconds = Hooks:CreateLabel(get_first_string(workspace:GetAttribute("State")) .. sec_to_min(workspace:GetAttribute("SecondsLeft"), true), return_icon(workspace:GetAttribute("State")), Color3.fromRGB(0, 0, 0), false)
+
+local hooks_label_fire = Hooks:CreateLabel("Campfire fuel: " .. math.floor(campfire:GetAttribute("FuelRemaining") / campfire:GetAttribute("FuelTarget") * 100) .. "%", "flame-kindling", Color3.fromRGB(0, 0, 0), false)
+
+local day_counter = localplayer.PlayerGui.Interface.DayCounter
+
+run(function()
+    while true do
+        day_counter.TextSize = 45
+        day_counter.TextScaled = false
+        day_counter.TextWrapped = false
+        day_counter.Text = workspace:GetAttribute("State") .. " " .. workspace:GetAttribute("StoryDayCounter") .. " | " .. sec_to_min(workspace:GetAttribute("SecondsLeft"), false) .. " | " .. math.floor(campfire:GetAttribute("FuelRemaining") / campfire:GetAttribute("FuelTarget") * 100) .. "%"
+        
+        task.wait()
+    end
+end)
 
 workspace.AttributeChanged:Connect(function(change)
     if current_instance_number ~= getgenv().BETA_INSTANCE_NUMBER then return end
@@ -1088,6 +1114,7 @@ workspace.AttributeChanged:Connect(function(change)
     main_label_seconds:Set(get_first_string(workspace:GetAttribute("State")) .. sec_to_min(workspace:GetAttribute("SecondsLeft")), return_icon(workspace:GetAttribute("State")), Color3.fromRGB(0, 0, 0), false)
     items_label_seconds:Set(get_first_string(workspace:GetAttribute("State")) .. sec_to_min(workspace:GetAttribute("SecondsLeft")), return_icon(workspace:GetAttribute("State")), Color3.fromRGB(0, 0, 0), false)
     movement_label_seconds:Set(get_first_string(workspace:GetAttribute("State")) .. sec_to_min(workspace:GetAttribute("SecondsLeft")), return_icon(workspace:GetAttribute("State")), Color3.fromRGB(0, 0, 0), false)
+    hooks_label_seconds:Set(get_first_string(workspace:GetAttribute("State")) .. sec_to_min(workspace:GetAttribute("SecondsLeft")), return_icon(workspace:GetAttribute("State")), Color3.fromRGB(0, 0, 0), false)
 end)
 
 campfire.AttributeChanged:Connect(function(change)
@@ -1098,19 +1125,12 @@ campfire.AttributeChanged:Connect(function(change)
     movement_label_fire:Set("Campfire fuel: " .. math.floor(campfire:GetAttribute("FuelRemaining") / campfire:GetAttribute("FuelTarget") * 100) .. "%", "flame-kindling", Color3.fromRGB(0, 0, 0), false)
 end)
 
-local tp_campfire = Main:CreateButton({
-    Name = "Teleport to campfire",
-    Callback = function()
-        run(tp, 0, 10, 0)
-    end
-})
-
 local open_chests = Main:CreateButton({
     Name = "Open chests",
     Callback = function()
         -- teleport to all chunks in the world
 
-        local range = 1400 -- workspace:GetAttribute("MapRange")
+        local range = 1200 -- workspace:GetAttribute("MapRange")
 
         local pos1 = range * -1
         local pos2 = range * -1
@@ -1124,16 +1144,19 @@ local open_chests = Main:CreateButton({
                 continue = false
             end
 
-            run(tp, pos1, 60, pos2)
-
-            if pos1 < range then
-                pos1 = pos1 + 200
-            elseif pos1 >= range then
-                pos1 = range * -1
-                pos2 = pos2 + 200
+            for c = 0, 70, 1 do
+                run(tp, pos1, 60, pos2)
+                task.wait()
             end
 
-            task.wait(.05)
+            if pos1 < range then
+                pos1 = pos1 + 400
+            elseif pos1 >= range then
+                pos1 = range * -1
+                pos2 = pos2 + 400
+            end
+
+            task.wait(.05) 
 
             -- After we loaded some chunks, check for unopened chests again
 
@@ -1156,34 +1179,29 @@ local open_chests = Main:CreateButton({
     end
 })
 
+getgenv().beta_bool_kill_aura = false
+
 local kill_aura = Main:CreateToggle({
     Name = "Cultist kill aura",
     CurrentValue = false,
     Callback = function(Value)
-        bool_kill_aura = Value
+        getgenv().beta_bool_kill_aura = Value
     end
 })
+
+getgenv().beta_bool_auto_eat = false
 
 local auto_eat = Main:CreateToggle({
     Name = "Auto eat",
     CurrentValue = false,
     Callback = function(Value)
-        bool_auto_eat = Value
-    end
-})
-
-local no_fog = Main:CreateButton({
-    Name = "No fog + Fullbright",
-    Callback = function()
-        getgenv().beta_bool_no_fog = true
+        getgenv().beta_bool_auto_eat = Value
     end
 })
 
 Main:CreateDivider()
 
 -- Items
-
-Items:CreateDivider()
 
 local place_fuel = Items:CreateButton({
     Name = "Place fuel",
@@ -1252,6 +1270,23 @@ local get_armor = Items:CreateButton({
         elseif workspace.Items:FindFirstChild("Leather Body") then
             target = workspace.Items:FindFirstChild("Leather Body")
         else return end
+        
+        local inv_armor
+
+        if localplayer.Armour:GetChildren()[1] then
+            inv_armor = localplayer.Armour:GetChildren()[1]
+        end
+
+        if inv_armor then
+            if inv_armor:GetAttribute("Armour") > target:GetAttribute("Armour") then
+                notify("No better armor found", "No armor with better stats was found", "circle-slash-2")
+                return
+            end
+            if inv_armor.Name == "Poison Armour" and target.Name == "Iron Body" then
+                notify("No better armor found", "No armor with better stats was found", "circle-slash-2")
+                return
+            end
+        end
 
         run(tp, target:GetPivot().X, target:GetPivot().Y, target:GetPivot().Z)
 
@@ -1286,21 +1321,111 @@ local get_melee = Items:CreateButton({
             target = workspace.Items:FindFirstChild("Strong Axe")
         elseif workspace.Items:FindFirstChild("Good Axe") then
             target = workspace.Items:FindFirstChild("Good Axe")
-        else return end
+        else
+            notify("No melee found", "Make sure to load the map", "circle-slash-2")
+            return
+        end
+
+        local inv_highest_damage
+
+        for _, inst in pairs(localplayer.Inventory:GetChildren()) do
+            if inst:GetAttribute("WeaponDamage") then
+                if not inv_highest_damage then
+                    inv_highest_damage = inst:GetAttribute("WeaponDamage")
+                elseif inv_highest_damage < inst:GetAttribute("WeaponDamage") then
+                    inv_highest_damage = inst:GetAttribute("WeaponDamage")
+                end
+            end
+        end
+
+        if inv_highest_damage then
+            if inv_highest_damage > target:GetAttribute("WeaponDamage") then
+                notify("No better melee found", "No melee weapon with better stats was found", "circle-slash-2")
+                return
+            end
+        end
 
         run(tp, target:GetPivot().X, target:GetPivot().Y, target:GetPivot().Z)
 
+        task.wait(.25)
+
+        rep_storage.RemoteEvents.RequestHotbarItem:InvokeServer(target)
+
         task.wait(.2)
 
-        rep_storage.RemoteEvents.PLACEHOLDER:InvokeServer(target)
+        run(tp, 0, 10, 0)
+    end
+})
 
-        task.wait(.05)
+local get_item_txt = Items:CreateInput({
+    Name = "Get item by name",
+    CurrentValue = "",
+    PlaceholderText = "Eg: Strong Axe",
+    RemoveTextAfterFocusLost = false,
+    Callback = function() end,
+})
 
-        rep_storage.RemoteEvents.PLACEHOLDER:InvokeServer(target)
+local get_item = Items:CreateButton({
+    Name = "Get item",
+    Callback = function()
+        local target_name = get_item_txt.CurrentValue
+        local targets = {}
+        local target
+        local method
 
-        task.wait(.05)
+        for _, inst in pairs(workspace.Items:GetChildren()) do
+            if inst.Name == target_name then
+                if inst:GetAttribute("Interaction") then
+                    table.insert(targets, inst)
+                    if not method then
+                        method = inst:GetAttribute("Interaction")
+                    end
+                end
+            end
+        end
 
-        rep_storage.RemoteEvents.PLACEHOLDER:InvokeServer(target)
+        if string.match(target_name, "Lost Child") then
+            if workspace.Characters:FindFirstChild(target_name) then
+                if workspace.Characters[target_name]:GetAttribute("Interaction") then
+                    target = workspace.Characters[target_name]
+                    method = "Item"
+                else
+                    notify("Child already rescued", "Child has already been rescued before", nil)
+                    return
+                end
+            else
+                notify("Child not found", "Child is in your or someone else's bag", "circle-slash-2")
+                return
+            end
+        end
+
+        if not method then
+            notify("Item not found or not valid", "Item or method to get it was not found", "circle-slash-2")
+            return
+        end
+
+        if not string.match(target_name, "Lost Child") then
+            target = targets[math.random(1, #targets)]
+        end
+
+        if string.match(target_name, "Ammo") then
+            method = "Consumeable"
+        end
+
+        run(tp, target:GetPivot().X, target:GetPivot().Y, target:GetPivot().Z)
+
+        task.wait(.25)
+
+        if method == "Item" then
+            local sack = localplayer.Inventory:FindFirstChild("Old Sack") or localplayer.Inventory:FindFirstChild("Good Sack") or localplayer.Inventory:FindFirstChild("Giant Sack")
+            rep_storage.RemoteEvents.RequestBagStoreItem:InvokeServer(sack, target)
+        elseif method == "Tool" then
+            rep_storage.RemoteEvents.RequestHotbarItem:InvokeServer(target)
+        elseif method == "Armour" then
+            rep_storage.RemoteEvents.RequestEquipArmour:InvokeServer(target)
+        elseif method == "Consumeable" then
+            rep_storage.RemoteEvents.RequestConsumeItem:InvokeServer(target)
+        end
 
         task.wait(.2)
 
@@ -1312,22 +1437,52 @@ Items:CreateDivider()
 
 -- Movement
 
-Movement:CreateDivider()
+local tp_campfire = Movement:CreateButton({
+    Name = "Teleport to campfire",
+    Callback = function()
+        run(tp, 0, 10, 0)
+    end
+})
+
+local tp_stronghold = Movement:CreateButton({
+    Name = "Teleport to stronghold",
+    Callback = function()
+        if workspace.Map.Landmarks:FindFirstChild("Stronghold") then
+            local sign_pos = workspace.Map.Landmarks.Stronghold.Functional.Sign.CFrame * CFrame.new(0, 0, 5)
+            run(tp, sign_pos.X, sign_pos.Y, sign_pos.Z)
+        else
+            notify("Stronghold not found", "Stronghold has not been loaded yet", "circle-slash-2")
+        end
+    end
+})
+
+getgenv().beta_bool_loop_ws = false
 
 local loop_ws = Movement:CreateToggle({
     Name = "+ 84 walkspeed",
     CurrentValue = false,
     Callback = function(Value)
-        bool_loop_ws = Value
+        getgenv().beta_bool_loop_ws = Value
         if not Value then
             localplayer.Character.Humanoid.WalkSpeed = 16
         end
     end,
 })
 
+Movement:CreateDivider()
+
+-- Hooks
+
+local no_fog = Hooks:CreateButton({
+    Name = "No fog + Fullbright",
+    Callback = function()
+        getgenv().beta_bool_no_fog = true
+    end
+})
+
 getgenv().beta_bool_no_debuff = false
 
-local no_debuff = Movement:CreateToggle({
+local no_debuff = Hooks:CreateToggle({
     Name = "Sprint without hunger debuff",
     CurrentValue = false,
     Callback = function(Value)
@@ -1335,29 +1490,90 @@ local no_debuff = Movement:CreateToggle({
     end,
 })
 
-local instantpp = Movement:CreateToggle({
+getgenv().beta_bool_instantpp = false
+
+local instantpp = Hooks:CreateToggle({
     Name = "Instant Proximity Prompts",
     CurrentValue = false,
     Callback = function(Value)
-        bool_instantpp = Value
+        getgenv().beta_bool_instantpp = Value
     end,
 })
 
+getgenv().beta_bool_skip_cutscenes = false
+
+local skip_cutscenes = Hooks:CreateToggle({
+    Name = "Skip cutscenes",
+    CurrentValue = false,
+    Callback = function(Value)
+        getgenv().beta_bool_skip_cutscenes = Value
+    end,
+})
+
+getgenv().beta_bool_no_cold = false
+
+local no_cold = Hooks:CreateToggle({
+    Name = "No coldness",
+    CurrentValue = false,
+    Callback = function(Value)
+        getgenv().beta_bool_no_cold = Value
+    end,
+})
+
+Hooks:CreateDivider()
+
 if current_instance_number == getgenv().BETA_INSTANCE_NUMBER then
-    local no_debuff_hook_old
-    no_debuff_hook_old = hookmetamethod(game, "__namecall", function(self, ...)
+    local old
+    old = hookmetamethod(game, "__namecall", function(self, ...)
         if getnamecallmethod() == "FireServer" and self == rep_storage.RemoteEvents.PlayerSprinting and getgenv().beta_bool_no_debuff then
             return nil
         end
-        return no_debuff_hook_old(self, ...)
+        return old(self, ...)
     end)
 end
 
-Movement:CreateDivider()
+if current_instance_number == getgenv().BETA_INSTANCE_NUMBER then
+    local old
+    old = hookmetamethod(game, "__namecall", function(self, arg1, ...)
+        if getnamecallmethod() == "GetAttribute" and self == localplayer and arg1 == "Temperature" and getgenv().beta_bool_no_cold then
+            return 100
+        end
+        return old(self, arg1, ...)
+    end)
+end
+
+if current_instance_number == getgenv().BETA_INSTANCE_NUMBER then
+    local module = require(localplayer.PlayerScripts.Client.CutsceneModuleClient)
+    local old
+    old = hookfunction(module.RunCutscene, function(...)
+        if getgenv().beta_bool_skip_cutscenes then
+            return nil
+        end
+        return old(self, ...)
+    end)
+end
 
 run(function()
+    local module = getsenv(localplayer.PlayerScripts.Client.Interface.Modules.NextDayUI)
+    hookfunction(module.DayDisplay, function(...)
+        return nil
+    end)
+end)
+
+run(function()
+    getgenv().beta_color_hooked = false
     while true do
         if getgenv().beta_bool_no_fog then
+            if getgenv().beta_color_hooked == false then
+                local module = require(localplayer.PlayerScripts.Client.EffectModules.ColorCorrectionLightingClient)
+
+                hookfunction(module.ChangeColorCorrection, function(...)
+                    return nil
+                end)
+
+                getgenv().beta_color_hooked = true
+            end
+
             -- fullbright + lighting based no fog
 
             game:GetService("Lighting").Brightness = 2
@@ -1385,7 +1601,7 @@ run(function()
     while true do
         if current_instance_number ~= getgenv().BETA_INSTANCE_NUMBER then break end
 
-        if bool_loop_ws then
+        if getgenv().beta_bool_loop_ws then
             localplayer.Character.Humanoid.WalkSpeed = 100
         end
 
@@ -1397,29 +1613,29 @@ run(function()
     while true do
         if current_instance_number ~= getgenv().BETA_INSTANCE_NUMBER then break end
 
-        if bool_kill_aura then
+        if getgenv().beta_bool_kill_aura then
             local weapon
-            local highest_dmg = 0
 
-            for _, inst in pairs(localplayer.Inventory:GetChildren()) do
-                if inst:GetAttribute("WeaponDamage") then
-                    if highest_dmg < inst:GetAttribute("WeaponDamage") then
-                        highest_dmg = inst:GetAttribute("WeaponDamage")
-                        weapon = inst
-                    end
-                end
-            end
+            if localplayer.Character:FindFirstChild("ToolHandle") then
+                if localplayer.Character:FindFirstChild("ToolHandle"):FindFirstChild("OriginalItem") then
+                    if localplayer.Character:FindFirstChild("ToolHandle").OriginalItem.Value then
+                        weapon = localplayer.Character.ToolHandle.OriginalItem.Value
 
-            for _, inst in pairs(workspace.Characters:GetChildren()) do
-                if (inst.Name == "Cultist" or inst.Name == "Crossbow Cultist" or inst.Name == "Juggernaut Cultist") and inst:FindFirstChild("HumanoidRootPart") then
-                    if (inst.HumanoidRootPart.Position - localplayer.Character.HumanoidRootPart.Position).Magnitude <= 200 then
-                        rep_storage.RemoteEvents.ToolDamageObject:InvokeServer(inst, weapon, hitreg_id, localplayer.Character.HumanoidRootPart.Position)
+                        if weapon:GetAttribute("WeaponDamage") then
+                            for _, inst in pairs(workspace.Characters:GetChildren()) do
+                                if (inst.Name == "Cultist" or inst.Name == "Crossbow Cultist" or inst.Name == "Juggernaut Cultist") and inst:FindFirstChild("HumanoidRootPart") then
+                                    if (inst.HumanoidRootPart.Position - localplayer.Character.HumanoidRootPart.Position).Magnitude <= 200 and inst and weapon then
+                                        rep_storage.RemoteEvents.ToolDamageObject:InvokeServer(inst, weapon, hitreg_id, localplayer.Character.HumanoidRootPart.Position)
+                                    end
+                                end
+                            end
+                        end
                     end
                 end
             end
         end
 
-        task.wait(.05)
+        task.wait(.075)
     end
 end)
 
@@ -1427,7 +1643,7 @@ run(function()
     while true do
         if current_instance_number ~= getgenv().BETA_INSTANCE_NUMBER then break end
 
-        if bool_auto_eat then
+        if getgenv().beta_bool_auto_eat then
             local missing_hunger = 200 - localplayer:GetAttribute("Hunger")
 
             local function consume(inst)
@@ -1460,7 +1676,9 @@ run(function()
 end)
 
 game:GetService("ProximityPromptService").PromptButtonHoldBegan:Connect(function(inst)
-    if bool_instantpp then
+    if current_instance_number ~= getgenv().BETA_INSTANCE_NUMBER then return end
+
+    if getgenv().beta_bool_instantpp then
 	    fireproximityprompt(inst)
     end
 end)
@@ -1474,7 +1692,7 @@ Main:CreateDivider()
 local tp_main = Main:CreateButton({
     Name = "Habibi what game are you in",
     Callback = function()
-        notify("What", "???????")
+        notify("What", "???????", "frown")
     end
 })
 
