@@ -7,7 +7,7 @@ Legacy with support for slap battles:
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Andris303/Beta-Release/refs/heads/main/Emo-Release-1.lua",true))()
 ```
 
-Rewritten Beta
+Rewritten Beta:
 ```lua
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Andris303/Beta-Release/refs/heads/main/BetaRewritelua",true))()
 ```
