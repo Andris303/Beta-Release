@@ -9,5 +9,5 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Andris303/Beta-Releas
 
 Rewritten Beta:
 ```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Andris303/Beta-Release/refs/heads/main/BetaRewritelua",true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Andris303/Beta-Release/refs/heads/main/BetaRewrite.lua",true))()
 ```
