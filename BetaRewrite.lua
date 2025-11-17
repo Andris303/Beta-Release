@@ -831,7 +831,7 @@ function main.p_esp(value) -- Player ESP with team coloring
                 end
             end
         end
-        genv.beta_player_esp_connection = workspace.ChildAdded:Connect(function() -- If walkspeed changed
+        genv.beta_player_esp_connection = workspace.ChildAdded:Connect(function(player) -- If walkspeed changed
             if game:GetService("Players").FindFirstChild(player.Name) then -- If player
                 local highlight_inst = Instance.new("Highlight", player) -- Create highlight
                 highlight_inst.Name = "ESPHighlight"
