@@ -822,7 +822,7 @@ end
 function main.p_esp(value) -- Player ESP with team coloring
     if value then
         for _, player in pairs(workspace:GetChildren()) do -- For every player
-            if game:GetService("Players").FindFirstChild(player.Name) then -- If player
+            if game:GetService("Players"):FindFirstChild(player.Name) then -- If player
                 if player:FindFirstChild("Head") and not player:FindFirstChild("ESPHighlight") then -- If character is loaded
                     local highlight_inst = Instance.new("Highlight", player) -- Create highlight
                     highlight_inst.Name = "ESPHighlight"
@@ -831,8 +831,8 @@ function main.p_esp(value) -- Player ESP with team coloring
                 end
             end
         end
-        genv.beta_player_esp_connection = workspace.ChildAdded:Connect(function(player) -- If walkspeed changed
-            if game:GetService("Players").FindFirstChild(player.Name) then -- If player
+        genv.beta_player_esp_connection = workspace.ChildAdded:Connect(function(player)
+            if game:GetService("Players"):FindFirstChild(player.Name) then -- If player
                 local highlight_inst = Instance.new("Highlight", player) -- Create highlight
                 highlight_inst.Name = "ESPHighlight"
                 highlight_inst.FillColor = Color3.fromRGB(3, 94, 231)
@@ -842,7 +842,7 @@ function main.p_esp(value) -- Player ESP with team coloring
     else
         genv.beta_player_esp_connection:Disconnect()
         for _, player in pairs(workspace:GetChildren()) do -- For every player
-            if game:GetService("Players").FindFirstChild(player.Name) then -- If player
+            if game:GetService("Players"):FindFirstChild(player.Name) then -- If player
                 if player:FindFirstChild("Head") and player:FindFirstChild("ESPHighlight") then -- If character is loaded
                     player:FindFirstChild("ESPHighlight"):Destroy() -- Remove highlight
                 end
@@ -862,8 +862,6 @@ function main.init_script() -- Start the script
     rayfield.start()
     rayfield.create_tabs()
     rayfield.create_elements()
-end
-
 end
 
 else -- if game isn't supported
