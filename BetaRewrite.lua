@@ -813,6 +813,59 @@ function main.init_script() -- Start the script
     rayfield.create_elements()
 end
 
+elseif game.PlaceId == 3226555017 then -- if game is SCP: Site Roleplay
+
+function rayfield.create_tabs() -- Create tabs in the window
+    rayfield.main = main.window:CreateTab("Main")
+end
+
+function main.p_esp(value) -- Player ESP with team coloring
+    if value then
+        for _, player in pairs(workspace:GetChildren()) do -- For every player
+            if game:GetService("Players").FindFirstChild(player.Name) then -- If player
+                if player:FindFirstChild("Head") and not player:FindFirstChild("ESPHighlight") then -- If character is loaded
+                    local highlight_inst = Instance.new("Highlight", player) -- Create highlight
+                    highlight_inst.Name = "ESPHighlight"
+                    highlight_inst.FillColor = Color3.fromRGB(3, 94, 231)
+                    highlight_inst.OutlineColor = Color3.fromRGB(143, 188, 255)
+                end
+            end
+        end
+        genv.beta_player_esp_connection = workspace.ChildAdded:Connect(function() -- If walkspeed changed
+            if game:GetService("Players").FindFirstChild(player.Name) then -- If player
+                local highlight_inst = Instance.new("Highlight", player) -- Create highlight
+                highlight_inst.Name = "ESPHighlight"
+                highlight_inst.FillColor = Color3.fromRGB(3, 94, 231)
+                highlight_inst.OutlineColor = Color3.fromRGB(143, 188, 255)
+            end
+        end)
+    else
+        genv.beta_player_esp_connection:Disconnect()
+        for _, player in pairs(workspace:GetChildren()) do -- For every player
+            if game:GetService("Players").FindFirstChild(player.Name) then -- If player
+                if player:FindFirstChild("Head") and player:FindFirstChild("ESPHighlight") then -- If character is loaded
+                    player:FindFirstChild("ESPHighlight"):Destroy() -- Remove highlight
+                end
+            end
+        end
+    end
+end
+
+function rayfield.create_elements() -- Create all elements in tabs
+    -- Main
+    rayfield.main:CreateDivider()
+    rayfield.main:CreateToggle({Name = "Player ESP", CurrentValue = false, Callback = function(bool) main.p_esp(bool) end})
+    rayfield.main:CreateDivider()
+end
+
+function main.init_script() -- Start the script
+    rayfield.start()
+    rayfield.create_tabs()
+    rayfield.create_elements()
+end
+
+end
+
 else -- if game isn't supported
 
 function rayfield.create_tabs() -- Create tabs in the window
